@@ -1,0 +1,48 @@
+.container {
+    padding: 2rem;
+    min-height: calc(100vh - var(--header-height));
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.card {
+    background: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.statusBadge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.lowStock {
+    background-color: #fef2f2;
+    color: #ef4444;
+}
+
+.goodStock {
+    background-color: #f0fdf4;
+    color: #16a34a;
+}

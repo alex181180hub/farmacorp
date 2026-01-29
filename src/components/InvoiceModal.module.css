@@ -1,0 +1,124 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.invoicePaper {
+    background: white;
+    width: 380px;
+    /* Thermal printer width approx */
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 1.5rem;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    font-family: 'Courier New', Courier, monospace;
+    /* Monospace for receipts */
+    font-size: 0.85rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px dashed #000;
+    padding-bottom: 1rem;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    color: black !important;
+}
+
+.info {
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.details {
+    border-bottom: 1px dashed #000;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+}
+
+.productRow {
+    margin-bottom: 0.5rem;
+}
+
+.prodName {
+    display: block;
+    font-weight: bold;
+}
+
+.prodNums {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 0.5rem;
+}
+
+.totals {
+    border-top: 1px dashed #000;
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.totalRow {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+.qrSection {
+    text-align: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.legal {
+    font-size: 0.7rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.printBtn {
+    width: 100%;
+    padding: 0.75rem;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin-top: 1rem;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+}
+
+.closeBtn {
+    width: 100%;
+    padding: 0.5rem;
+    background: white;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    cursor: pointer;
+}

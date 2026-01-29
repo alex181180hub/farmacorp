@@ -1,0 +1,38 @@
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+
+Error: Prisma schema validation - (validate wasm)
+Error code: P1012
+[1;91merror[0m: [1mError validating: When any of the records in model `User` is updated or deleted, the referential actions on the relations cascade to model `CashMovement` through multiple paths. Please break one of these paths by setting the `onUpdate` and `onDelete` to `NoAction`. (Implicit default `onUpdate`: `Cascade`) Read more at https://pris.ly/d/cyclic-referential-actions[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:62[0m
+[1;94m   | [0m
+[1;94m61 | [0m  shiftId     Int
+[1;94m62 | [0m  [1;91mshift       Shift    @relation("ShiftMovements", fields: [shiftId], references: [id])[0m
+[1;94m63 | [0m  
+[1;94m   | [0m
+[1;91merror[0m: [1mError validating: When any of the records in model `User` is updated or deleted, the referential actions on the relations cascade to model `CashMovement` through multiple paths. Please break one of these paths by setting the `onUpdate` and `onDelete` to `NoAction`. (Implicit default `onUpdate`: `Cascade`) Read more at https://pris.ly/d/cyclic-referential-actions[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:65[0m
+[1;94m   | [0m
+[1;94m64 | [0m  userId      Int
+[1;94m65 | [0m  [1;91muser        User     @relation("UserMovements", fields: [userId], references: [id])[0m
+[1;94m66 | [0m}
+[1;94m   | [0m
+[1;91merror[0m: [1mError validating: When any of the records in model `User` is updated or deleted, the referential actions on the relations cascade to model `Sale` through multiple paths. Please break one of these paths by setting the `onUpdate` and `onDelete` to `NoAction`. (Implicit default `onUpdate`: `Cascade`) Read more at https://pris.ly/d/cyclic-referential-actions[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:84[0m
+[1;94m   | [0m
+[1;94m83 | [0m  userId        Int
+[1;94m84 | [0m  [1;91muser          User       @relation(fields: [userId], references: [id])[0m
+[1;94m85 | [0m  
+[1;94m   | [0m
+[1;91merror[0m: [1mError validating: When any of the records in model `User` is updated or deleted, the referential actions on the relations cascade to model `Sale` through multiple paths. Please break one of these paths by setting the `onUpdate` and `onDelete` to `NoAction`. (Implicit default `onDelete`: `SetNull`, and `onUpdate`: `Cascade`) Read more at https://pris.ly/d/cyclic-referential-actions[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:87[0m
+[1;94m   | [0m
+[1;94m86 | [0m  shiftId       Int?
+[1;94m87 | [0m  [1;91mshift         Shift?     @relation("ShiftSales", fields: [shiftId], references: [id])[0m
+[1;94m88 | [0m
+[1;94m   | [0m
+
+Validation Error Count: 4
+[Context: validate]
+
+Prisma CLI Version : 5.22.0

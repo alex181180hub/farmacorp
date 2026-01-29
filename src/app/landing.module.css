@@ -1,0 +1,118 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+.header {
+  padding: 2rem 3rem;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px -10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.logoSection h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -0.05em;
+  margin: 0;
+}
+
+.logoSection p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+  font-weight: 500;
+}
+
+.gridContainer {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding: 2rem 3rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.iconWrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  background: #f0f7ff;
+  color: #0066cc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.card:hover .iconWrapper {
+  background: #0066cc;
+  color: white;
+  transform: scale(1.1) rotate(-5deg);
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+}
+
+.cardDesc {
+  font-size: 0.85rem;
+  color: #718096;
+  margin-top: 0.5rem;
+}
+
+/* Colors for specific cards could be added here if needed, but keeping it uniform is more corporate */
+
+@media (max-width: 1024px) {
+  .gridContainer {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .gridContainer {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 1rem;
+  }
+  
+  .header {
+    padding: 1rem;
+  }
+}

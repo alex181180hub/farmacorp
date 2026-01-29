@@ -1,0 +1,73 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
+    /* Higher than other modals */
+}
+
+.modal {
+    background: white;
+    width: 400px;
+    padding: 2rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+}
+
+.amount {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 1rem 0;
+}
+
+.options {
+    display: grid;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btnOption {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btnOption:hover {
+    border-color: var(--primary);
+    background: #f0f9ff;
+}
+
+.btnOption strong {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.btnOption span {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.cancelBtn {
+    margin-top: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.9rem;
+}

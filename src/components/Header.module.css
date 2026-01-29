@@ -1,0 +1,101 @@
+.header {
+    height: var(--header-height);
+    background: var(--bg-surface);
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    margin-left: var(--sidebar-width);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+}
+
+.searchBar {
+    display: flex;
+    align-items: center;
+    background: #f8fafc;
+    border-radius: var(--radius-md);
+    padding: 0.5rem 1rem;
+    width: 400px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.searchBar:focus-within {
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(0, 75, 141, 0.1);
+}
+
+.searchInput {
+    border: none;
+    background: transparent;
+    outline: none;
+    margin-left: 0.5rem;
+    width: 100%;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+}
+
+.rightArea {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.branchInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.branchLabel {
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.branchName {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.userArea {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-left: 1.5rem;
+    border-left: 1px solid #f1f5f9;
+}
+
+.userInfo {
+    text-align: right;
+}
+
+.userName {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+}
+
+.userRole {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.125rem;
+}

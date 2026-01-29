@@ -1,0 +1,20 @@
+{
+    "central": {
+        "PORT": "3000",
+        "NEXT_PUBLIC_BRANCH_NAME": "Farmacorp - Sucursal Central",
+        "SESSION_COOKIE_NAME": "session_central",
+        "DATABASE_URL": "sqlserver://localhost:1433;database=farmacorp_central;user=sa;password=alex;encrypt=false;trustServerCertificate=true"
+    },
+    "norte": {
+        "PORT": "3001",
+        "NEXT_PUBLIC_BRANCH_NAME": "Farmacorp - Sucursal Norte",
+        "SESSION_COOKIE_NAME": "session_norte",
+        "DATABASE_URL": "sqlserver://localhost:1433;database=farmacorp_norte;user=sa;password=alex;encrypt=false;trustServerCertificate=true"
+    },
+    "sur": {
+        "PORT": "3002",
+        "NEXT_PUBLIC_BRANCH_NAME": "Farmacorp - Sucursal Sur",
+        "SESSION_COOKIE_NAME": "session_sur",
+        "DATABASE_URL": "sqlserver://localhost:1433;database=farmacorp_sur;user=sa;password=alex;encrypt=false;trustServerCertificate=true"
+    }
+}

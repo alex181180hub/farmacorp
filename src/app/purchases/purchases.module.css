@@ -1,0 +1,145 @@
+.container {
+    padding: 1.5rem;
+    height: calc(100vh - 64px);
+    /* Header height */
+    display: flex;
+    gap: 1.5rem;
+    background-color: #f8fafc;
+}
+
+.leftPanel {
+    flex: 2;
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+.rightPanel {
+    flex: 1;
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+.searchBox {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.searchInput:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.resultsList {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.productCard {
+    padding: 0.75rem;
+    border: 1px solid #f1f5f9;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+}
+
+.productCard:hover {
+    border-color: #cbd5e1;
+    background: #f8fafc;
+}
+
+.cartList {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.cartItem {
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+}
+
+.cartItemHeader {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.cartDefaults {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.cartInput {
+    padding: 0.4rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    width: 100%;
+}
+
+.summary {
+    border-top: 2px dashed #e2e8f0;
+    padding-top: 1rem;
+}
+
+.totalRow {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 1rem;
+}
+
+.confirmBtn {
+    width: 100%;
+    padding: 1rem;
+    background-color: #0f172a;
+    color: white;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.confirmBtn:hover:not(:disabled) {
+    background-color: #1e293b;
+}
+
+.confirmBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

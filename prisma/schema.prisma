@@ -1,0 +1,176 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  username  String   @unique
+  password  String
+  role      String   @default("CAJERO")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  sales     Sale[]
+  purchases Purchase[]
+  shifts    Shift[]       @relation("UserShifts")
+  movements CashMovement[] @relation("UserMovements")
+}
+
+model CashRegister {
+  id          Int      @id @default(autoincrement())
+  name        String
+  location    String?
+  status      String   @default("CERRADA")
+  shifts      Shift[]
+  createdAt   DateTime @default(now())
+}
+
+model Shift {
+  id             Int       @id @default(autoincrement())
+  startTime      DateTime  @default(now())
+  endTime        DateTime?
+  status         String    @default("ABIERTA")
+  
+  initialAmount  Decimal
+  finalAmount    Decimal?
+  systemAmount   Decimal?
+  difference     Decimal?
+  
+  userId         Int
+  user           User      @relation("UserShifts", fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  
+  cashRegisterId Int
+  cashRegister   CashRegister @relation(fields: [cashRegisterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  
+  sales          Sale[]       @relation("ShiftSales")
+  movements      CashMovement[] @relation("ShiftMovements")
+}
+
+model CashMovement {
+  id          Int      @id @default(autoincrement())
+  type        String
+  amount      Decimal
+  description String
+  date        DateTime @default(now())
+  
+  shiftId     Int
+  shift       Shift    @relation("ShiftMovements", fields: [shiftId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  
+  userId      Int
+  user        User     @relation("UserMovements", fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Sale {
+  id            Int        @id @default(autoincrement())
+  date          DateTime   @default(now())
+  subtotal      Decimal
+  total         Decimal
+  status        String     @default("COMPLETADA")
+  paymentMethod String
+  
+  invoiceNumber String?
+  cuf           String?
+  controlCode   String?
+  
+  customerId    Int?
+  customer      Customer?  @relation(fields: [customerId], references: [id])
+  
+  userId        Int
+  user          User       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  
+  shiftId       Int?
+  shift         Shift?     @relation("ShiftSales", fields: [shiftId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  items         SaleItem[]
+}
+
+model SaleItem {
+  id        Int     @id @default(autoincrement())
+  saleId    Int
+  sale      Sale    @relation(fields: [saleId], references: [id])
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Decimal
+  discount  Decimal @default(0)
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+}
+
+model Product {
+  id                   Int        @id @default(autoincrement())
+  code                 String     @unique
+  barcode              String?    @unique
+  name                 String
+  description          String?
+  categoryId           Int
+  category             Category   @relation(fields: [categoryId], references: [id])
+  price                Decimal
+  cost                 Decimal
+  stock                Int        @default(0)
+  minStock             Int        @default(5)
+  requiresPrescription Boolean    @default(false)
+  expirationDate       DateTime?
+  location             String?
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
+  saleItems            SaleItem[]
+  purchaseItems        PurchaseItem[]
+}
+
+model Customer {
+  id          Int      @id @default(autoincrement())
+  nit         String   @unique
+  razonSocial String
+  email       String?
+  phone       String?
+  createdAt   DateTime @default(now())
+  sales       Sale[]
+}
+
+model Supplier {
+  id        Int      @id @default(autoincrement())
+  name      String
+  nit       String?
+  phone     String?
+  email     String?
+  purchases Purchase[]
+}
+
+model Purchase {
+  id          Int            @id @default(autoincrement())
+  date        DateTime       @default(now())
+  supplierId  Int?
+  supplier    Supplier?      @relation(fields: [supplierId], references: [id])
+  total       Decimal
+  status      String         @default("COMPLETADA")
+  userId      Int
+  user        User           @relation(fields: [userId], references: [id])
+  items       PurchaseItem[]
+}
+
+model PurchaseItem {
+  id             Int      @id @default(autoincrement())
+  purchaseId     Int
+  purchase       Purchase @relation(fields: [purchaseId], references: [id])
+  productId      Int
+  product        Product  @relation(fields: [productId], references: [id])
+  quantity       Int
+  cost           Decimal
+  lotNumber      String?
+  expirationDate DateTime?
+}
+
+model SystemSetting {
+  key   String @id
+  value String
+}
