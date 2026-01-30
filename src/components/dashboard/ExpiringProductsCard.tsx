@@ -122,7 +122,7 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
                                                             </span>
                                                         </td>
                                                         <td className="p-3 text-center">
-                                                            {((isExpired || isNear) && p.stock > 0) && (
+                                                            {p.stock > 0 && (
                                                                 <button
                                                                     onClick={(e) => { e.stopPropagation(); handleRemove(p); }}
                                                                     className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
