@@ -27,12 +27,27 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
     };
 
     const handleRemove = async (product: any) => {
-        if (!confirm(`¿Está seguro de dar de baja ${product.stock} unidades de ${product.name} por vencimiento? Esta acción quedará registrada en el historial.`)) return;
+        const qtyStr = prompt(`Ingrese la cantidad de '${product.name}' a dar de baja por vencimiento:\n(Stock actual: ${product.stock})`, product.stock);
+
+        if (qtyStr === null) return; // Cancelled
+
+        const qty = parseInt(qtyStr);
+        if (isNaN(qty) || qty <= 0) {
+            alert('Por favor ingrese una cantidad válida mayor a 0.');
+            return;
+        }
+
+        if (qty > product.stock) {
+            alert('La cantidad no puede superar el stock actual.');
+            return;
+        }
+
+        if (!confirm(`¿Confirma dar de baja ${qty} unidades? Esta acción es irreversible.`)) return;
 
         // Optimistic update or just reload
-        const res = await removeExpiredProduct(product.id, product.stock, 'Baja desde Dashboard (Vencidos)');
+        const res = await removeExpiredProduct(product.id, qty, `Baja desde Dashboard (Vencidos) - ${qty} unid.`);
         if (res.success) {
-            alert('Producto dado de baja correctamente');
+            // alert('Baja exitosa'); // Optional: reduce noise
             loadProducts();
         } else {
             alert(res.error || 'Error al dar de baja');
@@ -106,10 +121,10 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
                                                         <td className="p-3 text-center whitespace-nowrap bg-gray-50/50 border-r">
                                                             <button
                                                                 onClick={(e) => { e.stopPropagation(); handleRemove(p); }}
-                                                                className="flex items-center gap-1 px-3 py-1 bg-red-600 text-white hover:bg-red-700 shadow-sm rounded text-xs font-bold transition-all mx-auto"
+                                                                className="flex items-center justify-center p-2 text-rose-600 hover:bg-rose-50 hover:shadow-sm rounded-full transition-all mx-auto border border-transparent hover:border-rose-100"
                                                                 title="Dar de baja stock"
                                                             >
-                                                                <Trash2 size={14} /> ELIMINAR
+                                                                <Trash2 size={18} strokeWidth={2} />
                                                             </button>
                                                         </td>
                                                         <td className="p-3 font-mono text-secondary font-medium">{p.code}</td>
