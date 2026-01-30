@@ -264,3 +264,61 @@ export async function getTopProducts(from?: string, to?: string) {
         return { success: false, error: 'Error al obtener Ranking' };
     }
 }
+
+export async function getExpiredProductsHistory(from?: string, to?: string) {
+    const session = await getSession();
+    if (!session) return { success: false, error: 'No autorizado' };
+
+    let start: Date;
+    let end: Date;
+
+    const now = new Date();
+
+    if (from) {
+        start = parseLocalDate(from);
+    } else {
+        start = new Date(now.getFullYear(), now.getMonth(), 1);
+    }
+
+    if (to) {
+        end = parseLocalDate(to);
+        end.setHours(23, 59, 59, 999);
+    } else {
+        end = new Date(now);
+        end.setHours(23, 59, 59, 999);
+    }
+
+    try {
+        const adjustments = await prisma.stockAdjustment.findMany({
+            where: {
+                createdAt: {
+                    gte: start,
+                    lte: end
+                },
+                reason: 'VENCIDO'
+            },
+            include: {
+                product: { include: { category: true } },
+                user: { select: { name: true } }
+            },
+            orderBy: { createdAt: 'desc' }
+        });
+
+        return {
+            success: true,
+            data: adjustments.map(a => ({
+                id: a.id,
+                date: a.createdAt,
+                productName: a.product.name,
+                productCode: a.product.code,
+                category: a.product.category.name,
+                quantity: a.quantity,
+                notes: a.notes,
+                user: a.user?.name || 'Desconocido'
+            }))
+        };
+    } catch (e) {
+        console.error(e);
+        return { success: false, error: 'Error al obtener historial de bajas' };
+    }
+}

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Sistema de Farmacias</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Roboto:wght@300;400;700&display=swap');
+
+        :root {
+            --primary: #0056b3;
+            --text: #333;
+            --bg: #fff;
+        }
+
+        body {
+            font-family: 'Merriweather', serif;
+            line-height: 1.6;
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+
+        .book-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 60px;
+        }
+
+        /* Portada */
+        .cover {
+            text-align: center;
+            page-break-after: always;
+            padding: 50px 0;
+            border-bottom: 2px solid #eee;
+        }
+
+        .cover img {
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .cover h1 {
+            font-family: 'Roboto', sans-serif;
+            font-size: 3em;
+            color: var(--primary);
+            margin-top: 30px;
+        }
+
+        .cover h2 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+            color: #666;
+        }
+
+        /* Pagina de Indice */
+        .index-page {
+            page-break-before: always;
+            page-break-after: always;
+            padding: 40px 0;
+        }
+
+        .index-page h2 {
+            text-align: center;
+            border-bottom: 2px solid var(--primary);
+            margin-bottom: 30px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .toc-list li {
+            margin-bottom: 15px;
+            border-bottom: 1px dotted #ccc;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .toc-list a {
+            text-decoration: none;
+            color: var(--text);
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.1em;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .toc-list a:hover {
+            color: var(--primary);
+        }
+
+        /* Contenido */
+        .chapter {
+            margin-top: 50px;
+            page-break-before: always;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Roboto', sans-serif;
+            color: var(--primary);
+        }
+
+        p {
+            margin-bottom: 1.5em;
+            text-align: justify;
+        }
+
+        .image-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .caption {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 5px solid var(--primary);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .book-container {
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+            }
+
+            .cover {
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .index-page {
+                height: 100vh;
+            }
+
+            .chapter {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="book-container">
+        <!-- PORTADA -->
+        <div class="cover">
+            <img src="public/manual/cover.png" alt="Portada Sistema Farmacias">
+            <h1>Sistema de Farmacias</h1>
+            <h2>Manual Oficial de Usuario</h2>
+            <p>Versión 1.0 - 2026</p>
+        </div>
+
+        <!-- INDICE -->
+        <div class="index-page">
+            <h2>Índice de Contenido</h2>
+            <ul class="toc-list">
+                <li><a href="#intro"><span>1. Introducción</span></a></li>
+                <li><a href="#login"><span>2. Ingreso al Sistema</span></a></li>
+                <li><a href="#dashboard"><span>3. Panel de Control</span></a></li>
+                <li><a href="#sales"><span>4. Facturación y Ventas</span></a></li>
+                <li><a href="#cash"><span>5. Apertura y Cierre de Caja</span></a></li>
+                <li><a href="#reports"><span>6. Reportes y Vencimientos</span></a></li>
+            </ul>
+        </div>
+
+        <!-- CONTENIDO -->
+        <div class="content">
+
+            <div id="intro" class="chapter">
+                <h2>1. Introducción</h2>
+                <p>Bienvenido al <strong>Sistema de Gestión de Farmacias</strong>. Esta guía ha sido diseñada para
+                    ayudarle a dominar todas las herramientas que su nuevo software ofrece, optimizando el tiempo de
+                    atención y mejorando el control de su inventario.</p>
+            </div>
+
+            <div id="login" class="chapter">
+                <h2>2. Acceso Seguro</h2>
+                <p>Para garantizar la seguridad de la información, el sistema requiere autenticación.</p>
+                <div class="info-box">
+                    <strong>Credenciales de Administrador:</strong><br>
+                    Usuario: <code>admin</code><br>
+                    Contraseña: <code>admin123</code>
+                </div>
+                <div class="image-container">
+                    <img src="public/manual/login.png" alt="Login">
+                    <div class="caption">Figura 1: Pantalla de inicio de sesión segura.</div>
+                </div>
+            </div>
+
+            <div id="dashboard" class="chapter">
+                <h2>3. Panel de Control (Dashboard)</h2>
+                <p>El centro de mando de su farmacia. Aquí podrá visualizar en tiempo real:</p>
+                <ul>
+                    <li>Ventas totales del día.</li>
+                    <li>Dinero en caja actual.</li>
+                    <li>Alertas de stock bajo.</li>
+                </ul>
+                <div class="image-container">
+                    <img src="public/manual/dashboard.png" alt="Dashboard">
+                    <div class="caption">Figura 2: Vista general de métricas clave.</div>
+                </div>
+            </div>
+
+            <div id="sales" class="chapter">
+                <h2>4. Punto de Venta y Facturación</h2>
+                <p>El módulo más importante para el día a día. Realice ventas en segundos con una interfaz optimizada
+                    para velocidad.</p>
+                <div class="image-container">
+                    <img src="public/manual/pos.png" alt="POS">
+                    <div class="caption">Figura 3: Interfaz de venta rápida.</div>
+                </div>
+                <p>Una vez confirmada la venta, el sistema generará automáticamente la factura o recibo correspondiente.
+                </p>
+                <div class="image-container">
+                    <img src="public/manual/invoice.png" alt="Factura">
+                    <div class="caption">Figura 4: Previsualización de factura.</div>
+                </div>
+            </div>
+
+            <div id="cash" class="chapter">
+                <h2>5. Control de Caja</h2>
+                <p>Gestione sus finanzas con total transparencia. El sistema requiere abrir caja al inicio del turno y
+                    cerrarla al final, calculando automáticamente diferencias de efectivo.</p>
+                <div class="image-container">
+                    <img src="public/manual/cash.png" alt="Caja">
+                    <div class="caption">Figura 5: Apertura y cierre de caja.</div>
+                </div>
+            </div>
+
+            <div id="reports" class="chapter">
+                <h2>6. Reportes y Vencimientos</h2>
+                <p>Evite pérdidas controlando las fechas de caducidad. Nuestro sistema de alertas tempranas le
+                    notificará sobre productos próximos a vencer.</p>
+                <div class="image-container">
+                    <img src="public/manual/reports.png" alt="Reportes">
+                    <div class="caption">Figura 6: Listado de control de vencimientos.</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

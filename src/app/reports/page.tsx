@@ -1,15 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FileText, TrendingUp, DollarSign, AlertCircle, FileCheck, ArrowLeft, Printer, Search, Calendar } from 'lucide-react';
+import { FileText, TrendingUp, DollarSign, AlertCircle, FileCheck, ArrowLeft, Printer, Search, Calendar, History } from 'lucide-react';
 import styles from './reports.module.css';
-import { getCriticalStock, getDailyReport, getSalesBook, getTopProducts, getAllCashiers, getCurrentUserSession } from '@/actions/report-actions';
+import { getCriticalStock, getDailyReport, getSalesBook, getTopProducts, getAllCashiers, getCurrentUserSession, getExpiredProductsHistory } from '@/actions/report-actions';
 
 const REPORTS = [
     { id: 'daily', title: 'Cierre de Caja Diario', icon: DollarSign, desc: 'Resumen de ingresos, egresos y arqueo de caja.' },
     { id: 'sales_book', title: 'Libro de Ventas (IVA)', icon: FileCheck, desc: 'Reporte fiscal formato SIAT para declaración de impuestos.' },
     { id: 'top_products', title: 'Ranking de Productos', icon: TrendingUp, desc: 'Productos más vendidos y de mayor rentabilidad.' },
     { id: 'critical_stock', title: 'Stock Crítico', icon: AlertCircle, desc: 'Inventario con existencias por debajo del mínimo.' },
+    { id: 'expired_history', title: 'Bajas por Vencimiento', icon: History, desc: 'Historial de productos eliminados del stock por fecha de vencimiento.' },
 ];
 
 export default function ReportsPage() {
@@ -59,6 +60,8 @@ export default function ReportsPage() {
             res = await getCriticalStock();
         } else if (selectedReport === 'top_products') {
             res = await getTopProducts(dateFrom, dateTo);
+        } else if (selectedReport === 'expired_history') {
+            res = await getExpiredProductsHistory(dateFrom, dateTo);
         }
 
         setLoading(false);
@@ -184,6 +187,37 @@ export default function ReportsPage() {
                              <tr>
                                  <td>${i + 1}</td><td>${p.code}</td><td>${p.name}</td>
                                  <td class="right">${p.quantity}</td>
+                             </tr>
+                         `).join('')}
+                     </tbody>
+                 </table>
+             `;
+        } else if (selectedReport === 'expired_history' && data) {
+            title = 'Historial de Bajas por Vencimiento';
+            htmlContent = `
+                 <div class="meta"><p><strong>Periodo:</strong> ${dateFrom} al ${dateTo}</p></div>
+                 <table>
+                     <thead>
+                         <tr>
+                             <th>Fecha</th>
+                             <th>Código</th>
+                             <th>Producto</th>
+                             <th>Categoría</th>
+                             <th class="right">Cantidad</th>
+                             <th>Responsable</th>
+                             <th>Notas</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         ${data.map((item: any) => `
+                             <tr>
+                                 <td>${new Date(item.date).toLocaleString()}</td>
+                                 <td>${item.productCode}</td>
+                                 <td>${item.productName}</td>
+                                 <td>${item.category}</td>
+                                 <td class="right">${item.quantity}</td>
+                                 <td>${item.user}</td>
+                                 <td>${item.notes}</td>
                              </tr>
                          `).join('')}
                      </tbody>
@@ -525,6 +559,35 @@ export default function ReportsPage() {
                                                     <td className="p-2 font-mono">{p.code}</td>
                                                     <td className="p-2 font-medium">{p.name}</td>
                                                     <td className="p-2 text-right font-bold">{p.quantity}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                )}
+
+                                {selectedReport === 'expired_history' && (
+                                    <table className="w-full text-left text-sm">
+                                        <thead className="bg-gray-50 border-b">
+                                            <tr>
+                                                <th className="p-2">Fecha</th>
+                                                <th className="p-2">Código</th>
+                                                <th className="p-2">Producto</th>
+                                                <th className="p-2">Categoría</th>
+                                                <th className="p-2 text-right">Cantidad</th>
+                                                <th className="p-2">Responsable</th>
+                                                <th className="p-2">Notas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {data.map((item: any) => (
+                                                <tr key={item.id} className="border-b hover:bg-gray-50">
+                                                    <td className="p-2">{new Date(item.date).toLocaleString()}</td>
+                                                    <td className="p-2 font-mono text-gray-500">{item.productCode}</td>
+                                                    <td className="p-2 font-medium">{item.productName}</td>
+                                                    <td className="p-2">{item.category}</td>
+                                                    <td className="p-2 text-right font-bold text-red-600">{item.quantity}</td>
+                                                    <td className="p-2">{item.user}</td>
+                                                    <td className="p-2 text-gray-500 italic">{item.notes}</td>
                                                 </tr>
                                             ))}
                                         </tbody>

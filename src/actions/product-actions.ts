@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
+import { getSession } from '@/lib/auth';
 
 export async function getInventoryProducts(query: string = '') {
     const products = await prisma.product.findMany({
@@ -126,5 +127,45 @@ export async function deleteProduct(id: number) {
         return { success: true };
     } catch (error) {
         return { success: false, error: 'No se puede eliminar. Posiblemente tenga ventas asociadas.' };
+    }
+}
+
+export async function removeExpiredProduct(productId: number, quantity: number, notes: string = '') {
+    const session = await getSession();
+    if (!session || !session.user) {
+        return { success: false, error: 'No autorizado' };
+    }
+
+    try {
+        const product = await prisma.product.findUnique({ where: { id: productId } });
+        if (!product) return { success: false, error: 'Producto no encontrado' };
+
+        if (quantity > product.stock) {
+            return { success: false, error: 'La cantidad excede el stock actual' };
+        }
+
+        await prisma.$transaction([
+            prisma.stockAdjustment.create({
+                data: {
+                    productId,
+                    quantity,
+                    reason: 'VENCIDO',
+                    notes: notes || `Baja por vencimiento. Vencía: ${product.expirationDate?.toLocaleDateString()}`,
+                    userId: session.user.id
+                }
+            }),
+            prisma.product.update({
+                where: { id: productId },
+                data: { stock: { decrement: quantity } }
+            })
+        ]);
+
+        revalidatePath('/');
+        revalidatePath('/inventory');
+        revalidatePath('/reports');
+        return { success: true };
+    } catch (e) {
+        console.error(e);
+        return { success: false, error: 'Error al dar de baja stock' };
     }
 }

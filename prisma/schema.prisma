@@ -19,6 +19,7 @@ model User {
   purchases Purchase[]
   shifts    Shift[]       @relation("UserShifts")
   movements CashMovement[] @relation("UserMovements")
+  adjustments StockAdjustment[]
 }
 
 model CashRegister {
@@ -125,6 +126,7 @@ model Product {
   updatedAt            DateTime   @updatedAt
   saleItems            SaleItem[]
   purchaseItems        PurchaseItem[]
+  adjustments          StockAdjustment[]
 }
 
 model Customer {
@@ -170,7 +172,21 @@ model PurchaseItem {
   expirationDate DateTime?
 }
 
+// ... existing content ...
+
 model SystemSetting {
   key   String @id
   value String
+}
+
+model StockAdjustment {
+  id          Int      @id @default(autoincrement())
+  productId   Int
+  product     Product  @relation(fields: [productId], references: [id])
+  quantity    Int
+  reason      String   // "VENCIDO", "PERDIDA", "DAÑO", "AJUSTE"
+  notes       String?
+  createdAt   DateTime @default(now())
+  userId      Int?
+  user        User?    @relation(fields: [userId], references: [id])
 }

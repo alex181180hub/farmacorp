@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { AlertTriangle, X } from 'lucide-react';
-import { getExpiringProductsList } from '@/actions/product-actions';
+import { AlertTriangle, X, Trash2 } from 'lucide-react';
+import { getExpiringProductsList, removeExpiredProduct } from '@/actions/product-actions';
 import styles from '@/app/page.module.css';
 
 interface StatCardProps {
@@ -16,11 +16,26 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
 
     const handleClick = async () => {
         setIsOpen(true);
-        if (products.length === 0) {
-            setLoading(true);
-            const list = await getExpiringProductsList();
-            setProducts(list);
-            setLoading(false);
+        loadProducts();
+    };
+
+    const loadProducts = async () => {
+        setLoading(true);
+        const list = await getExpiringProductsList();
+        setProducts(list);
+        setLoading(false);
+    };
+
+    const handleRemove = async (product: any) => {
+        if (!confirm(`¿Está seguro de dar de baja ${product.stock} unidades de ${product.name} por vencimiento? Esta acción quedará registrada en el historial.`)) return;
+
+        // Optimistic update or just reload
+        const res = await removeExpiredProduct(product.id, product.stock, 'Baja desde Dashboard (Vencidos)');
+        if (res.success) {
+            alert('Producto dado de baja correctamente');
+            loadProducts();
+        } else {
+            alert(res.error || 'Error al dar de baja');
         }
     };
 
@@ -65,6 +80,7 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
                                             <th className="p-3 text-right">Stock</th>
                                             <th className="p-3 text-right">Vencimiento</th>
                                             <th className="p-3 text-center">Estado</th>
+                                            <th className="p-3 text-center">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y">
@@ -104,6 +120,17 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
                                                             }}>
                                                                 {isExpired ? 'Vencido' : isNear ? `Por Vencer (${diffDays}d)` : 'Alerta'}
                                                             </span>
+                                                        </td>
+                                                        <td className="p-3 text-center">
+                                                            {(isExpired && p.stock > 0) && (
+                                                                <button
+                                                                    onClick={(e) => { e.stopPropagation(); handleRemove(p); }}
+                                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                                                                    title="Dar de baja stock vencido"
+                                                                >
+                                                                    <Trash2 size={16} />
+                                                                </button>
+                                                            )}
                                                         </td>
                                                     </tr>
                                                 );
