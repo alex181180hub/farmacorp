@@ -85,7 +85,7 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
                                     </thead>
                                     <tbody className="divide-y">
                                         {products.length === 0 ? (
-                                            <tr><td colSpan={5} className="p-8 text-center text-secondary">No hay productos con alertas de vencimiento.</td></tr>
+                                            <tr><td colSpan={6} className="p-8 text-center text-secondary">No hay productos con alertas de vencimiento.</td></tr>
                                         ) : (
                                             products.map(p => {
                                                 const expDate = new Date(p.expirationDate);
