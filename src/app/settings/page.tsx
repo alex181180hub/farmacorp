@@ -11,7 +11,7 @@ export default function SettingsPage() {
 
     // System Config State
     const [configForm, setConfigForm] = useState({
-        companyName: 'Farmacorp - Sucursal',
+        companyName: 'Farmatech - Sucursal',
         nit: '1020304050'
     });
 

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Farmacorp POS',
+  title: 'Farmatech POS',
   description: 'Sistema de Ventas e Inventarios Farmacéutico - Bolivia',
 };
 

@@ -21,7 +21,7 @@ const MENU_ITEMS = [
 
 export default function Sidebar({ userRole }: { userRole?: string }) {
     const pathname = usePathname();
-    const [companyName, setCompanyName] = useState('FARMACORP');
+    const [companyName, setCompanyName] = useState('FARMATECH');
 
     useEffect(() => {
         getSystemSettings().then(settings => {

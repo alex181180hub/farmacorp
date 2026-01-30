@@ -27,7 +27,12 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
     };
 
     const handleRemove = async (product: any) => {
-        const qtyStr = prompt(`Ingrese la cantidad de '${product.name}' a dar de baja por vencimiento:\n(Stock actual: ${product.stock})`, product.stock);
+        const defaultQty = product.expiredStock && product.expiredStock > 0 ? product.expiredStock : product.stock;
+        const msg = product.expiredStock && product.expiredStock > 0
+            ? `Se detectaron ${product.expiredStock} unidades vencidas (según lotes).\nStock total: ${product.stock}`
+            : `Stock actual: ${product.stock}`;
+
+        const qtyStr = prompt(`Ingrese la cantidad de '${product.name}' a dar de baja por vencimiento:\n${msg}`, defaultQty.toString());
 
         if (qtyStr === null) return; // Cancelled
 
@@ -106,18 +111,22 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
                                                 const expDate = new Date(p.expirationDate);
                                                 const today = new Date();
                                                 const isExpired = expDate < today;
+                                                const hasExpiredStock = p.expiredStock && p.expiredStock > 0;
+
                                                 const diffTime = Math.abs(expDate.getTime() - today.getTime());
                                                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                                                 const isNear = !isExpired && diffDays <= 30;
 
                                                 const statusStyle = isExpired
-                                                    ? { backgroundColor: '#fee2e2', color: '#991b1b' }
-                                                    : isNear
-                                                        ? { backgroundColor: '#ffedd5', color: '#9a3412' }
-                                                        : { backgroundColor: '#fef9c3', color: '#854d0e' };
+                                                    ? { backgroundColor: '#fee2e2', color: '#991b1b' } // Red (Fully expired based on main date)
+                                                    : hasExpiredStock
+                                                        ? { backgroundColor: '#fee2e2', color: '#991b1b' } // Red (Partial expiring)
+                                                        : isNear
+                                                            ? { backgroundColor: '#ffedd5', color: '#9a3412' } // Orange
+                                                            : { backgroundColor: '#fef9c3', color: '#854d0e' }; // Yellow
 
                                                 return (
-                                                    <tr key={p.id} className="border-b transition-colors hover:bg-gray-50" style={isExpired ? { backgroundColor: '#fef2f2' } : {}}>
+                                                    <tr key={p.id} className="border-b transition-colors hover:bg-gray-50" style={isExpired || hasExpiredStock ? { backgroundColor: '#fef2f2' } : {}}>
                                                         <td className="p-3 text-center whitespace-nowrap bg-gray-50/50 border-r">
                                                             <button
                                                                 onClick={(e) => { e.stopPropagation(); handleRemove(p); }}
@@ -129,7 +138,16 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
                                                         </td>
                                                         <td className="p-3 font-mono text-secondary font-medium">{p.code}</td>
                                                         <td className="p-3 font-medium text-primary">{p.name}</td>
-                                                        <td className="p-3 text-right font-bold">{p.stock}</td>
+                                                        <td className="p-3 text-right font-bold">
+                                                            <div className="flex flex-col items-end">
+                                                                <span>{p.stock}</span>
+                                                                {hasExpiredStock && (
+                                                                    <span className="text-xs text-red-600 font-bold whitespace-nowrap">
+                                                                        {p.expiredStock} Vencidos
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                        </td>
                                                         <td className="p-3 text-right">
                                                             {expDate.toLocaleDateString()}
                                                         </td>
@@ -142,7 +160,7 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
                                                                 fontWeight: 600,
                                                                 display: 'inline-block'
                                                             }}>
-                                                                {isExpired ? 'Vencido' : isNear ? `Por Vencer (${diffDays}d)` : 'Alerta'}
+                                                                {isExpired ? 'Vencido' : hasExpiredStock ? `Parcial: ${p.expiredStock} un.` : isNear ? `Por Vencer (${diffDays}d)` : 'Alerta'}
                                                             </span>
                                                         </td>
                                                     </tr>

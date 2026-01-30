@@ -231,7 +231,7 @@ export default function ReportsPage() {
                 <html>
                     <head><title>${title}</title>${style}</head>
                     <body>
-                        <h1>FARMACORP - ${title}</h1>
+                        <h1>FARMATECH - ${title}</h1>
                         <p style="text-align:center; color:#666">Generado el: ${new Date().toLocaleString()}</p>
                         ${htmlContent}
                         <script>window.print();</script>
@@ -264,7 +264,7 @@ export default function ReportsPage() {
 
         const htmlContent = `
             <div class="header">
-                <h1>FARMACORP</h1>
+                <h1>FARMATECH</h1>
                 <h2>${title}</h2>
                 <p>Fecha de Impresión: ${new Date().toLocaleString()}</p>
             </div>

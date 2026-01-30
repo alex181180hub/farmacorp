@@ -21,7 +21,7 @@ export default function InvoiceModal({ sale, qrContent, onClose }: InvoiceModalP
         <div className={styles.overlay}>
             <div className={styles.invoicePaper}>
                 <div className={styles.header}>
-                    <div className={styles.title}>FARMACORP</div>
+                    <div className={styles.title}>FARMATECH</div>
                     <div className={styles.info}>SUCURSAL NORTE</div>
                     <div className={styles.info}>AV. CRISTO REDENTOR NRO 500</div>
                     <div className={styles.info}>SANTA CRUZ - BOLIVIA</div>

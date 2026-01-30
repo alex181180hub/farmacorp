@@ -67,11 +67,56 @@ export async function getExpiringProductsList() {
         take: 50
     });
 
-    return products.map(p => ({
-        ...p,
-        price: p.price.toString(),
-        cost: p.cost.toString(),
+    // Calculate real expired quantity based on FIFO batches
+    const productsWithBatches = await Promise.all(products.map(async (p) => {
+        const purchases = await prisma.purchaseItem.findMany({
+            where: { productId: p.id },
+            orderBy: { purchase: { date: 'desc' } }, // Newest first
+            select: { quantity: true, expirationDate: true }
+        });
+
+        let remainingStockToAccount = p.stock;
+        let realExpiredStock = 0;
+
+        // Iterate through purchases (newest to oldest) to identify which batches make up the current stock
+        for (const batch of purchases) {
+            if (remainingStockToAccount <= 0) break;
+
+            const quantityFromBatch = Math.min(remainingStockToAccount, batch.quantity);
+            remainingStockToAccount -= quantityFromBatch;
+
+            if (batch.expirationDate) {
+                const expDate = new Date(batch.expirationDate);
+                // Check if this specific batch is expired
+                if (expDate < today) {
+                    realExpiredStock += quantityFromBatch;
+                }
+            } else {
+                // If batch has no date, fallback to product date or ignore?
+                // Usually we fallback to product.expirationDate if available
+                if (p.expirationDate && new Date(p.expirationDate) < today) {
+                    realExpiredStock += quantityFromBatch;
+                }
+            }
+        }
+
+        // If there is still stock not accounted for by purchase history (e.g. initial migration)
+        // We evaluate it using the main product expiration date
+        if (remainingStockToAccount > 0) {
+            if (p.expirationDate && new Date(p.expirationDate) < today) {
+                realExpiredStock += remainingStockToAccount;
+            }
+        }
+
+        return {
+            ...p,
+            price: p.price.toString(),
+            cost: p.cost.toString(),
+            expiredStock: realExpiredStock
+        };
     }));
+
+    return productsWithBatches;
 }
 
 export async function createProduct(data: any) {

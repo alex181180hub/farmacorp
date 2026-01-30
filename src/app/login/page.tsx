@@ -12,7 +12,7 @@ export default function LoginPage() {
         <div className={styles.container}>
             <div className={styles.card}>
                 <div className={styles.header}>
-                    <h1>FARMACORP</h1>
+                    <h1>FARMATECH</h1>
                     <p>Sistema POS Bolivia</p>
                 </div>
 
