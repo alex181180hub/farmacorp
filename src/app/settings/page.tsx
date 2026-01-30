@@ -32,7 +32,7 @@ export default function SettingsPage() {
             getSystemSettings().then(cfg => {
                 if (cfg) {
                     setConfigForm({
-                        companyName: cfg.COMPANY_NAME || 'Farmacorp',
+                        companyName: cfg.COMPANY_NAME || 'Farmatech',
                         nit: cfg.COMPANY_NIT || '0'
                     });
                 }

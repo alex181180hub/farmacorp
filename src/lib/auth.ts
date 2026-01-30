@@ -2,7 +2,7 @@ import { SESSION_COOKIE_NAME } from './constants';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 
-const secretKey = process.env.SESSION_SECRET || 'secret-key-farmacorp';
+const secretKey = process.env.SESSION_SECRET || 'secret-key-farmatech';
 const key = new TextEncoder().encode(secretKey);
 
 export async function encrypt(payload: any) {
