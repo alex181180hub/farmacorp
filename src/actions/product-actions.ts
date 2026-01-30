@@ -31,11 +31,14 @@ export async function getExpiringProducts() {
         const threshold = new Date();
         threshold.setMonth(today.getMonth() + 3);
 
-        // We count all products expiring before the threshold (including already expired ones)
+        // We count all products expiring before the threshold (including already expired ones) that have stock
         const count = await prisma.product.count({
             where: {
                 expirationDate: {
                     lte: threshold
+                },
+                stock: {
+                    gt: 0
                 }
             }
         });
@@ -55,6 +58,9 @@ export async function getExpiringProductsList() {
         where: {
             expirationDate: {
                 lte: threshold
+            },
+            stock: {
+                gt: 0
             }
         },
         orderBy: { expirationDate: 'asc' },
