@@ -61,26 +61,26 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
                         <div className={styles.modalHeader}>
                             <h3 className="text-lg font-bold text-red-600 flex items-center gap-2">
                                 <AlertTriangle size={24} />
-                                Productos Por Vencer / Vencidos (Gestión)
+                                Gestión de Vencimientos
                             </h3>
                             <button onClick={(e) => { e.stopPropagation(); setIsOpen(false); }} className={styles.closeButton}>
                                 <X size={24} />
                             </button>
                         </div>
 
-                        <div className={styles.modalContent}>
+                        <div className={`${styles.modalContent} overflow-x-auto`}>
                             {loading ? (
                                 <div className="text-center py-8 text-secondary">Cargando inventario...</div>
                             ) : (
-                                <table className="w-full text-sm text-left">
+                                <table className="w-full text-sm text-left min-w-[800px]">
                                     <thead className="text-secondary font-semibold uppercase text-xs sticky top-0 bg-white border-b">
                                         <tr>
+                                            <th className="p-3 text-center bg-gray-50 border-r w-24">Acciones</th>
                                             <th className="p-3">Código</th>
                                             <th className="p-3">Producto</th>
                                             <th className="p-3 text-right">Stock</th>
                                             <th className="p-3 text-right">Vencimiento</th>
                                             <th className="p-3 text-center">Estado</th>
-                                            <th className="p-3 text-center">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y">
@@ -103,6 +103,15 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
 
                                                 return (
                                                     <tr key={p.id} className="border-b transition-colors hover:bg-gray-50" style={isExpired ? { backgroundColor: '#fef2f2' } : {}}>
+                                                        <td className="p-3 text-center whitespace-nowrap bg-gray-50/50 border-r">
+                                                            <button
+                                                                onClick={(e) => { e.stopPropagation(); handleRemove(p); }}
+                                                                className="flex items-center gap-1 px-3 py-1 bg-red-600 text-white hover:bg-red-700 shadow-sm rounded text-xs font-bold transition-all mx-auto"
+                                                                title="Dar de baja stock"
+                                                            >
+                                                                <Trash2 size={14} /> ELIMINAR
+                                                            </button>
+                                                        </td>
                                                         <td className="p-3 font-mono text-secondary font-medium">{p.code}</td>
                                                         <td className="p-3 font-medium text-primary">{p.name}</td>
                                                         <td className="p-3 text-right font-bold">{p.stock}</td>
@@ -120,17 +129,6 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
                                                             }}>
                                                                 {isExpired ? 'Vencido' : isNear ? `Por Vencer (${diffDays}d)` : 'Alerta'}
                                                             </span>
-                                                        </td>
-                                                        <td className="p-3 text-center">
-                                                            <div className="flex justify-center items-center gap-2">
-                                                                <button
-                                                                    onClick={(e) => { e.stopPropagation(); handleRemove(p); }}
-                                                                    className="flex items-center gap-1 px-3 py-1 bg-red-100 text-red-700 hover:bg-red-200 rounded-lg text-xs font-bold transition-colors"
-                                                                    title="Dar de baja"
-                                                                >
-                                                                    <Trash2 size={14} /> ELIMINAR
-                                                                </button>
-                                                            </div>
                                                         </td>
                                                     </tr>
                                                 );
