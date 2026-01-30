@@ -25,7 +25,7 @@ export default async function Dashboard() {
     <div className={styles.container}>
       <div className={styles.welcomeSection}>
         <h1>Panel de Control</h1>
-        <p className="text-secondary">Bienvenido al sistema. Resumen de hoy, {new Date().toLocaleDateString('es-BO', { day: 'numeric', month: 'long', year: 'numeric' })}.</p>
+        <p className="text-secondary">Bienvenido al sistema. Resumen de hoy, {new Date().toLocaleDateString('es-BO', { day: 'numeric', month: 'long', year: 'numeric' })}. <span className="text-red-500 font-bold ml-2">(v3.5 ACTUALIZADO)</span></p>
       </div>
 
       <div className={styles.statsGrid}>
