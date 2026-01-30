@@ -61,7 +61,7 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
                         <div className={styles.modalHeader}>
                             <h3 className="text-lg font-bold text-red-600 flex items-center gap-2">
                                 <AlertTriangle size={24} />
-                                Gestión de Vencimientos
+                                Productos con fecha de Vencimiento crítico
                             </h3>
                             <button onClick={(e) => { e.stopPropagation(); setIsOpen(false); }} className={styles.closeButton}>
                                 <X size={24} />
