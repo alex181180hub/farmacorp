@@ -122,15 +122,15 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
                                                             </span>
                                                         </td>
                                                         <td className="p-3 text-center">
-                                                            {p.stock > 0 && (
+                                                            <div className="flex justify-center items-center gap-2">
                                                                 <button
                                                                     onClick={(e) => { e.stopPropagation(); handleRemove(p); }}
-                                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
-                                                                    title="Dar de baja stock (Vencido o Por Vencer)"
+                                                                    className="flex items-center gap-1 px-3 py-1 bg-red-100 text-red-700 hover:bg-red-200 rounded-lg text-xs font-bold transition-colors"
+                                                                    title="Dar de baja"
                                                                 >
-                                                                    <Trash2 size={16} />
+                                                                    <Trash2 size={14} /> ELIMINAR
                                                                 </button>
-                                                            )}
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 );
