@@ -46,7 +46,7 @@ export default function ExpiringProductsCard({ count }: StatCardProps) {
                     <div className={`${styles.iconBox} ${styles.redIcon}`}>
                         <AlertTriangle size={20} />
                     </div>
-                    <span className={styles.statTitle}>Alertas Stock</span>
+                    <span className={styles.statTitle}>Alertas de Vencimiento</span>
                 </div>
                 <div className={styles.statValue} style={{ color: 'var(--secondary)' }}>{count}</div>
                 <div className={styles.statTrend}>
